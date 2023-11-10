@@ -16,7 +16,6 @@ main {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-    border: 1px solid var(--table-border-color);
     border-radius: 1em;
     padding: 3em;
     background-repeat: no-repeat;
@@ -26,5 +25,14 @@ main {
 }
 
 #cartdiv {
+    grid-area: cart;
+    display: flex;
+    font-size: larger;
     visibility: hidden;
+    padding: 3em;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 1em;
+    background-repeat: no-repeat;
+    background-size: contain;
 }

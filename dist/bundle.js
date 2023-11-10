@@ -261,7 +261,7 @@ class User {
         const cart = document.createElement('table');
         for (const item of new Set(this.cart)) {
             const minusOne = document.createElement("button");
-            minusOne.id = `${item.id}-remove1`;
+            minusOne.id = `${item.id}-minus1`;
             minusOne.classList.add("btn", "btn-danger");
             minusOne.onclick = () => {
                 Shop.myUser.removeQuantityFromCart(item, 1);
@@ -283,6 +283,22 @@ class User {
         ;
         cart.innerHTML += `<tr id="totalbar"><td><strong>${"Total:"}</strong></td><td>$${this.cartTotal().toFixed(2)}</td></tr>`;
         return cart;
+    }
+    addRemoveEventListeners() {
+        for (const item of new Set(this.cart)) {
+            const removeOne = document.getElementById(`${item.id}-minus1`) || null;
+            if (removeOne) {
+                removeOne.onclick = () => {
+                    Shop.myUser.removeQuantityFromCart(item, 1);
+                };
+            }
+            const removeAll = document.getElementById(`${item.id}-removeall`) || null;
+            if (removeAll) {
+                removeAll.onclick = () => {
+                    Shop.myUser.removeFromCart(item);
+                };
+            }
+        }
     }
     get id() {
         return this._id;
@@ -359,10 +375,25 @@ class Shop {
         const item6 = new Item("Wirless Headset", 79.99, "Logitech G535 Lightspeed Wireless Gaming Headset");
         this._items = [item1, item2, item3, item4, item5, item6];
         this.showItems();
+        Shop.myUser.cart = [];
+        Shop.updateCart();
     }
     showItems() {
         for (let item of this.items) {
             document.getElementById("shop").appendChild(item.itemElement());
+        }
+    }
+    static updateCart() {
+        const cartDiv = document.getElementById("cartdiv");
+        if (Shop.myUser.cart.length <= 0) {
+            cartDiv.innerHTML =
+                `<h2 id="cart-header">${Shop.myUser.name}'s Cart</h2>
+            <p>Cart is Empty</p>`;
+        }
+        else {
+            cartDiv.replaceChildren(Shop.myUser.cartHTMLElement());
+            cartDiv.innerHTML = (`<h2 id="cart-header">${Shop.myUser.name}'s Cart</h2>` + cartDiv.innerHTML);
+            Shop.myUser.addRemoveEventListeners();
         }
     }
     get items() {
