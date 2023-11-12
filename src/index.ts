@@ -22,10 +22,12 @@ class User{
 
     public addToCart(item:Item){
         this.cart.push(item)
+        Shop.updateCart();
     }
 
     public removeFromCart(itemToRemove:Item):void{
         this.cart = this.cart.filter(item => item.id !== itemToRemove.id)
+        Shop.updateCart();
     }
 
     public removeQuantityFromCart(itemToRemove:Item, quantity:number):void{
@@ -33,6 +35,7 @@ class User{
             let index = this.cart.findIndex(item => item.id === itemToRemove.id);
             this.cart.splice(index, 1);
         }
+        Shop.updateCart();
     }
 
     public cartTotal():number{
@@ -128,16 +131,20 @@ class Item{
 
     itemElement(){
         const displayShop = document.createElement('div');
+        displayShop.classList.add('col-4');
         displayShop.innerHTML = `
         <div class="card" style="width: 18rem;">
-            <img src="https://picsum.photos/200" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">${this.name}</h5>
                 <p class="card-text">${this.description}</p>
                 <p class="card-text">${this.price}</p>
-                <button class="btn btn-primary" id="addtocart">Add to Cart</button>
+                <button type="submit" class="btn" id="addtocart">Add to Cart</button>
             </div>
         </div>`;
+        const addToCart = displayShop.querySelector("#addtocart") as HTMLElement;
+        addToCart.onclick = () => {
+            Shop.myUser.addToCart(this);
+        };
         return displayShop;
     }
 
@@ -173,7 +180,7 @@ class Shop {
         const item3 = new Item("ChapStick", 3.99, "A small container of lip moisturizer.");
         const item4 = new Item("Notebook", 19.99, "128-page College-Ruled Notebook");
         const item5 = new Item("Wireless Keyboard", 98.99, "Logitech MX Keys Wireless Keyboard");
-        const item6 = new Item("Wirless Headset", 79.99, "Logitech G535 Lightspeed Wireless Gaming Headset")
+        const item6 = new Item("Wireless Headset", 79.99, "Logitech G535 Lightspeed Wireless Gaming Headset")
 
         this._items = [item1, item2, item3, item4, item5, item6];
         this.showItems();
@@ -217,4 +224,5 @@ class Shop {
 }
 
 document.getElementById("loginbutton")!.addEventListener("click", (e) => Shop.loginUser(e));
+
 

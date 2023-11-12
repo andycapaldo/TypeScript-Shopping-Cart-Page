@@ -11,17 +11,33 @@ main {
     background-image: none;
 }
 
+#loginbutton {
+    max-width: 500px;
+    max-height: 100px;
+    background-color: #5AB9EA;
+}
+
 #shop {
-    grid-area: shop;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    border-radius: 1em;
-    padding: 3em;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
+    padding: 5em;
+    gap: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     visibility: hidden;
+    background-image: url(images/OIG.TmvmNfEnIU.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.card {
+    background-color: #C1C8E4;
+    color: white;
+}
+
+#addtocart {
+    color: white;
+    background-color: #8860D0;
 }
 
 #cartdiv {
@@ -35,4 +51,8 @@ main {
     border-radius: 1em;
     background-repeat: no-repeat;
     background-size: contain;
+}
+
+td {
+    padding: 5px;
 }
